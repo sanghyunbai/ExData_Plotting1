@@ -10,8 +10,6 @@ readData <- function(){
         data <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
         # print(head(data))
         
-        data$Date<-as.Date(data$Date)
-        data$Time <- data$Time
         data$Global_active_power <- as.numeric(data$Global_active_power)
         data$Global_reactive_power <- as.numeric(data$Global_reactive_power)
         data$Voltage <- as.numeric(data$Voltage)
@@ -27,11 +25,20 @@ plot1 <- function(data){
         hist(data$Global_active_power, col="red", main="Global Active Power", xlab="Global Active Power (kilowatts)")
         dev.off() 
 }
-
+plot2 <-function(data){
+        timeAndDate <- strptime(paste(data$Date, data$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+        png("plot2.png", width=480, height=480)
+        plot(timeAndDate, data$Global_active_power, type="l", ylab="Global Active Power (kilowatts)")
+        dev.off()        
+}
 run <- function(){
         library(dplyr)
         datasets <- readData()   
         ## plot1 
         plot1(datasets)
+        ## plot2 
+        plot2(datasets)
+        
+        
 }
 run()
