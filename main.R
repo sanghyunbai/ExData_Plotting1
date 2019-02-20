@@ -31,14 +31,27 @@ plot2 <-function(data){
         plot(timeAndDate, data$Global_active_power, type="l", ylab="Global Active Power (kilowatts)")
         dev.off()        
 }
+plot3<- function(data){
+        timeAndDate <- strptime(paste(data$Date, data$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+        png("plot3.png", width=480, height=480)
+        plot(timeAndDate, data$Sub_metering_1, type="l", xlab="",ylab="Energy sub metering")
+        lines(timeAndDate, data$Sub_metering_2, type="l", col="red")
+        lines(timeAndDate, data$Sub_metering_3,col="blue")
+        legend("topright"
+               , col=c("black","red","blue")
+               , c("Sub_metering_1","Sub_metering_2", "Sub_metering_3")
+               ,lty=1, lwd=2)
+        dev.off()
+}
 run <- function(){
         library(dplyr)
         datasets <- readData()   
         ## plot1 
-        plot1(datasets)
+        # plot1(datasets)
         ## plot2 
-        plot2(datasets)
-        
-        
+        # plot2(datasets)
+        ## plot3
+        plot3(datasets)
+
 }
 run()
