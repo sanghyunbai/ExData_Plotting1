@@ -43,6 +43,26 @@ plot3<- function(data){
                ,lty=1, lwd=2)
         dev.off()
 }
+plot4<-function(data){
+        timeAndDate <- strptime(paste(data$Date, data$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+        png("plot4.png", width=480, height=480)
+        
+        par(mfrow=c(2,2))
+        plot(timeAndDate, data$Global_active_power,type ="l", xlab= "", ylab="Global Active Power (kilowatts)")
+        plot(timeAndDate, data$Voltage, type="l", xlab="datetime", ylab="Voltage")
+
+        plot(timeAndDate, data$Sub_metering_1, type="l", xlab="",ylab="Energy sub metering")
+        lines(timeAndDate, data$Sub_metering_2, type="l", col="red")
+        lines(timeAndDate, data$Sub_metering_3,col="blue")
+        legend("topright"
+               , col=c("black","red","blue")
+               , c("Sub_metering_1","Sub_metering_2", "Sub_metering_3")
+               ,lty=1, lwd=2)
+        
+        plot(timeAndDate, data$Global_reactive_power, type="l", xlab="datetime", ylab="Global_reactive_power")
+        
+        dev.off()
+}
 run <- function(){
         library(dplyr)
         datasets <- readData()   
@@ -51,7 +71,9 @@ run <- function(){
         ## plot2 
         # plot2(datasets)
         ## plot3
-        plot3(datasets)
+        # plot3(datasets)
+        ## plot4
+        plot4(datasets)
 
 }
 run()
